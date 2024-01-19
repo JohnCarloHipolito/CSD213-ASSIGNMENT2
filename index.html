@@ -44,7 +44,7 @@
             <label><input type="radio" name="weight" value="metric"/>Metric</label>
             <input type="button" value="Weight" onclick="fetchCatsData(getWeights)">
         </div>
-        <input type="button" value="Intelligence - Friendly">
+        <input type="button" value="Intelligence - Friendly" onclick="fetchCatsData(getIntelligenceFriendly)">
         <input type="button" value="Average Intelligence">
         <input type="button" value="Average Intelligence = 4">
     </form>
@@ -83,6 +83,12 @@
             output.innerHTML = "Weights in " + weightType + ":<br/>";
             output.innerHTML += "<hr style='border: 1px solid gray'/>";
             values.forEach(value => output.innerHTML += value.weight[weightType] + "<br/>");
+        }
+
+        function getIntelligenceFriendly(values) {
+            output.innerHTML = "I - F<br/>";
+            output.innerHTML += "<hr style='border: 1px solid gray'/>";
+            values.forEach(value => output.innerHTML += value.intelligence + " - " + value.child_friendly + "<br/>");
         }
 
         function fetchCatsData(callback) {
