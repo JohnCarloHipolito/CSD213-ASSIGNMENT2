@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>John Carlo Hipolito - 22080866</title>
+    <style>
+        body {
+            overflow: scroll;
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            justify-content: start;
+            gap: 10px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            gap: 10px;
+        }
+
+        .bordered {
+            border: 1px solid gray;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="main">
+    <form class="content">
+        <input type="button" value="All Names" onclick="fetchCatsData(getCatNames)">
+        <div>
+            <input type="button" value="Health Issues">
+            <input type="text" id="healthIssues">
+        </div>
+        <div>
+            <label><input type="radio" name="weight" value="imperial"/>Imperial</label>
+            <label><input type="radio" name="weight" value="metric"/>Metric</label>
+            <input type="button" value="Weight">
+        </div>
+        <input type="button" value="Intelligence - Friendly">
+        <input type="button" value="Average Intelligence">
+        <input type="button" value="Average Intelligence = 4">
+    </form>
+    <div class="content">
+        <div class="bordered" id="output">
+            <-All Results should be displayed here ->
+        </div>
+    </div>
+    <script>
+        const catUrl = "https://api.thecatapi.com/v1/breeds";
+        const output = document.getElementById("output");
+
+        function getCatNames(data) {
+            const values = Object.values(data);
+            output.innerHTML = "All names (total = " + values.length + ")<br/>";
+            output.innerHTML += "<hr style='border: 1px solid gray'/>";
+            values.forEach(value => {
+                output.innerHTML += value.name + "<br/>";
+            });
+        }
+
+        function fetchCatsData(callback) {
+            fetch(catUrl)
+                .then(response => {
+                    if (!response.ok) throw new Error('Something went wrong...');
+                    return response.json();
+                })
+                .then(data => callback(data))
+                .catch(error => console.error('Error fetching JSON:', error));
+        }
+    </script>
+</div>
+</body>
+</html>
