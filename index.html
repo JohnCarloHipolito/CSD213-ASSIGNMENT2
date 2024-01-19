@@ -36,13 +36,13 @@
     <form class="content">
         <input type="button" value="All Names" onclick="fetchCatsData(getCatNames)">
         <div>
-            <input type="button" value="Health Issues">
+            <input type="button" value="Health Issues" onclick="fetchCatsData(getHealthIssues)">
             <input type="text" id="healthIssues">
         </div>
         <div>
-            <label><input type="radio" name="weight" value="imperial"/>Imperial</label>
+            <label><input type="radio" name="weight" value="imperial" checked/>Imperial</label>
             <label><input type="radio" name="weight" value="metric"/>Metric</label>
-            <input type="button" value="Weight">
+            <input type="button" value="Weight" onclick="fetchCatsData(getWeights)">
         </div>
         <input type="button" value="Intelligence - Friendly">
         <input type="button" value="Average Intelligence">
@@ -57,13 +57,32 @@
         const catUrl = "https://api.thecatapi.com/v1/breeds";
         const output = document.getElementById("output");
 
-        function getCatNames(data) {
-            const values = Object.values(data);
+        function getCatNames(values) {
             output.innerHTML = "All names (total = " + values.length + ")<br/>";
             output.innerHTML += "<hr style='border: 1px solid gray'/>";
-            values.forEach(value => {
-                output.innerHTML += value.name + "<br/>";
-            });
+            values.forEach(value => output.innerHTML += value.name + "<br/>");
+        }
+
+        function getHealthIssues(values) {
+            const healthIssuesNumber = document.getElementById("healthIssues").value;
+            if(Number(healthIssuesNumber) != healthIssuesNumber) {
+                output.innerHTML = "Please enter a valid price";
+            } else {
+                const healthIssues = values.filter(value => value.health_issues == healthIssuesNumber);
+                output.innerHTML = "Health Issues for " + healthIssuesNumber + ":<br/>";
+                output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                healthIssues.forEach(healthIssue => output.innerHTML += healthIssue.name + "<br/>");
+                output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                output.innerHTML += "Total = " + healthIssues.length;
+
+            }
+        }
+
+        function getWeights(values) {
+            const weightType = document.querySelector("input[name='weight']:checked").value;
+            output.innerHTML = "Weights in " + weightType + ":<br/>";
+            output.innerHTML += "<hr style='border: 1px solid gray'/>";
+            values.forEach(value => output.innerHTML += value.weight[weightType] + "<br/>");
         }
 
         function fetchCatsData(callback) {
@@ -72,7 +91,7 @@
                     if (!response.ok) throw new Error('Something went wrong...');
                     return response.json();
                 })
-                .then(data => callback(data))
+                .then(data => callback(Object.values(data)))
                 .catch(error => console.error('Error fetching JSON:', error));
         }
     </script>
