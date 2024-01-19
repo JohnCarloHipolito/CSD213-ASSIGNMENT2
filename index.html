@@ -74,11 +74,16 @@
                 output.innerHTML += "<hr style='border: 1px solid gray'/>";
             } else {
                 const healthIssues = values.filter(value => value.health_issues == healthIssuesNumber);
-                output.innerHTML = "Health Issues for " + healthIssuesNumber + ":<br/>";
-                output.innerHTML += "<hr style='border: 1px solid gray'/>";
-                healthIssues.forEach(healthIssue => output.innerHTML += healthIssue.name + "<br/>");
-                output.innerHTML += "<hr style='border: 1px solid gray'/>";
-                output.innerHTML += "Total = " + healthIssues.length;
+                if(healthIssues.length == 0) {
+                    output.innerText = "No Cats with Health Issues of " + healthIssuesNumber;
+                    output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                } else {
+                    output.innerHTML = "Health Issues for " + healthIssuesNumber + ":<br/>";
+                    output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                    healthIssues.forEach(healthIssue => output.innerHTML += healthIssue.name + "<br/>");
+                    output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                    output.innerHTML += "Total = " + healthIssues.length;
+                }
 
             }
         }
@@ -93,7 +98,8 @@
         function getIntelligenceFriendly(values) {
             output.innerHTML = "I - F<br/>";
             output.innerHTML += "<hr style='border: 1px solid gray'/>";
-            values.forEach(value => output.innerHTML += value.intelligence + " - " + value.child_friendly + "<br/>");
+            values.forEach(value =>
+                output.innerHTML += value.intelligence + " - " + value.child_friendly + "<br/>");
         }
 
         function getAveIntelligence(values) {
