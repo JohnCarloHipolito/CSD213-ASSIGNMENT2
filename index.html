@@ -90,7 +90,8 @@
 
         function getWeights(values) {
             const weightType = document.querySelector("input[name='weight']:checked").value;
-            output.innerHTML = "Weights in " + weightType + ":<br/>";
+            // no built-in function for sentence Case.
+            output.innerHTML = "Weights in " + weightType.charAt(0).toUpperCase() + weightType.slice(1) + ":<br/>";
             output.innerHTML += "<hr style='border: 1px solid gray'/>";
             values.forEach(value => output.innerHTML += value.weight[weightType] + "<br/>");
         }
