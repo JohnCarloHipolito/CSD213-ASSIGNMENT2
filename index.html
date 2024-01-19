@@ -37,7 +37,7 @@
         <input type="button" value="All Names" onclick="fetchCatsData(getCatNames)">
         <div>
             <input type="button" value="Health Issues" onclick="fetchCatsData(getHealthIssues)">
-            <input type="text" id="healthIssues">
+            <input type="text" id="healthIssues" style="width: 50px">
         </div>
         <div>
             <label><input type="radio" name="weight" value="imperial" checked/>Imperial</label>
@@ -46,7 +46,10 @@
         </div>
         <input type="button" value="Intelligence - Friendly" onclick="fetchCatsData(getIntelligenceFriendly)">
         <input type="button" value="Average Intelligence" onclick="fetchCatsData(getAveIntelligence)">
-        <input type="button" value="Average Intelligence = 4">
+        <div>
+            <input type="button" value="Ave Intelligence for Child Friendly" onclick="fetchCatsData(getAveIntForChildFriendly)">
+            <input type="text" id="childFriendliness" style="width: 50px">
+        </div>
     </form>
     <div class="content">
         <div class="bordered" id="output">
@@ -64,9 +67,11 @@
         }
 
         function getHealthIssues(values) {
-            const healthIssuesNumber = document.getElementById("healthIssues").value;
-            if(Number(healthIssuesNumber) != healthIssuesNumber) {
-                output.innerHTML = "Please enter a valid price";
+            const healthIssuesVal = document.getElementById("healthIssues").value;
+            const  healthIssuesNumber = Number(healthIssuesVal);
+            if(healthIssuesVal == "" || healthIssuesVal != healthIssuesVal) {
+                output.innerHTML = "Please Enter a Valid Health Issues Count";
+                output.innerHTML += "<hr style='border: 1px solid gray'/>";
             } else {
                 const healthIssues = values.filter(value => value.health_issues == healthIssuesNumber);
                 output.innerHTML = "Health Issues for " + healthIssuesNumber + ":<br/>";
@@ -95,6 +100,29 @@
             const averageIntelligence = values.reduce((acc, value) => acc + value.intelligence, 0) / values.length;
             output.innerHTML = "Average Intelligence: " + averageIntelligence.toFixed(2) + "<br/>";
             output.innerHTML += "<hr style='border: 1px solid gray'/>";
+        }
+
+        function getAveIntForChildFriendly(values) {
+            const childFriendlinessVal = document.getElementById("childFriendliness").value;
+            const  childFriendlinessNum = Number(childFriendlinessVal);
+            if(childFriendlinessVal == "" || childFriendlinessNum != childFriendlinessVal) {
+                output.innerHTML = "Please Enter a Valid Child Friendliness Count";
+                output.innerHTML += "<hr style='border: 1px solid gray'/>";
+            } else {
+                const childFriendlyList = values.filter(value => value.child_friendly == childFriendlinessNum);
+                if(childFriendlyList.length == 0) {
+                    output.innerText = "No Cats with Child Friendly of " + childFriendlinessNum;
+                    output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                } else {
+                    const aveIntForChildFriendly =
+                        childFriendlyList.reduce((acc, value) => acc + value.intelligence, 0) / childFriendlyList.length;
+
+                    output.innerHTML = "Average Intelligence: " + aveIntForChildFriendly.toFixed(2) + "<br/>";
+                    output.innerHTML += "<hr style='border: 1px solid gray'/>";
+                }
+
+            }
+
         }
 
         function fetchCatsData(callback) {
