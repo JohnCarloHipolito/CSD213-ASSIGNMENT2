@@ -45,7 +45,7 @@
             <input type="button" value="Weight" onclick="fetchCatsData(getWeights)">
         </div>
         <input type="button" value="Intelligence - Friendly" onclick="fetchCatsData(getIntelligenceFriendly)">
-        <input type="button" value="Average Intelligence">
+        <input type="button" value="Average Intelligence" onclick="fetchCatsData(getAveIntelligence)">
         <input type="button" value="Average Intelligence = 4">
     </form>
     <div class="content">
@@ -89,6 +89,12 @@
             output.innerHTML = "I - F<br/>";
             output.innerHTML += "<hr style='border: 1px solid gray'/>";
             values.forEach(value => output.innerHTML += value.intelligence + " - " + value.child_friendly + "<br/>");
+        }
+
+        function getAveIntelligence(values) {
+            const averageIntelligence = values.reduce((acc, value) => acc + value.intelligence, 0) / values.length;
+            output.innerHTML = "Average Intelligence: " + averageIntelligence.toFixed(2) + "<br/>";
+            output.innerHTML += "<hr style='border: 1px solid gray'/>";
         }
 
         function fetchCatsData(callback) {
